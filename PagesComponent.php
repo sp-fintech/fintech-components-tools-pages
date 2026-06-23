@@ -4,9 +4,7 @@ namespace Apps\Fintech\Components\Pages;
 
 use League\Flysystem\FilesystemException;
 use League\Flysystem\UnableToCheckExistence;
-use League\Flysystem\UnableToDeleteFile;
 use League\Flysystem\UnableToReadFile;
-use League\Flysystem\UnableToWriteFile;
 use System\Base\BaseComponent;
 
 class PagesComponent extends BaseComponent
@@ -86,23 +84,6 @@ class PagesComponent extends BaseComponent
                             $this->view->page = $page;
 
                             return;
-                        }
-
-                        //We write the content of the file to a temp location and then read the content again in case we need to render VOLT
-                        if (str_contains($page['html_code'], '{%') || str_contains($page['html_code'], '{{')) {
-                            try {
-                                $path = str_replace(base_path(), '', $this->view->getViewsDir());
-
-                                if ($this->localContent->fileExists($path . 'pages/files/' . $page['name'] . '_temp.html')) {
-                                    $this->localContent->delete($path . 'pages/files/' . $page['name'] . '_temp.html');
-                                }
-
-                                $this->localContent->write($path . 'pages/files/' . $page['name'] . '_temp.html', $page['html_code']);
-
-                                $page['html_code'] = $this->view->getPartial('pages/files/' . $page['name'] . '_temp');
-                            } catch (\throwable | FilesystemException | UnableToCheckExistence | UnableToReadFile | UnableToWriteFile | UnableToDeleteFile $e) {
-                                throw $e;
-                            }
                         }
                     }
 

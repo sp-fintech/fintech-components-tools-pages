@@ -12,10 +12,10 @@ class Widgets extends ComponentsWidgets
         return $this->getWidgetContent($widget, $dashboardWidget);
     }
 
-    public function carousel($widget, $dashboardWidget)
+    public function carousel($widget, $pageWidget)
     {
-        if (isset($dashboardWidget['settings']['slides']) && count($dashboardWidget['settings']['slides']) > 0) {
-            foreach ($dashboardWidget['settings']['slides'] as $slideKey => $slideValue) {
+        if (isset($pageWidget['settings']['slides']) && count($pageWidget['settings']['slides']) > 0) {
+            foreach ($pageWidget['settings']['slides'] as $slideKey => $slideValue) {
                 if (isset($slideValue['content'])) {
                     if (str_starts_with($slideValue['content'], 'getWidgetContent(')) {
                         preg_match('/\d/', $slideValue['content'], $pageWidgetId);
@@ -27,20 +27,20 @@ class Widgets extends ComponentsWidgets
                         $pageWidget = $this->componentObj->basepackages->pageswidgets->getPageWidgetById((int) $pageWidgetId[0]);
 
                         if (isset($pageWidget['settings']['html_code'])) {
-                            $dashboardWidget['settings']['slides'][$slideKey]['content'] = $pageWidget['settings']['html_code'];
+                            $pageWidget['settings']['slides'][$slideKey]['content'] = $pageWidget['settings']['html_code'];
                         }
                     }
                 }
             }
         }
 
-        return $this->getWidgetContent($widget, $dashboardWidget);
+        return $this->getWidgetContent($widget, $pageWidget);
     }
 
-    public function accordion($widget, $dashboardWidget)
+    public function accordion($widget, $pageWidget)
     {
-        if (isset($dashboardWidget['settings']['accordions']) && count($dashboardWidget['settings']['accordions']) > 0) {
-            foreach ($dashboardWidget['settings']['accordions'] as $accordionKey => $accordionValue) {
+        if (isset($pageWidget['settings']['accordions']) && count($pageWidget['settings']['accordions']) > 0) {
+            foreach ($pageWidget['settings']['accordions'] as $accordionKey => $accordionValue) {
                 if (isset($accordionValue['content'])) {
                     if (str_starts_with($accordionValue['content'], 'getWidgetContent(')) {
                         preg_match('/\d/', $accordionValue['content'], $pageWidgetId);
@@ -52,13 +52,13 @@ class Widgets extends ComponentsWidgets
                         $pageWidget = $this->componentObj->basepackages->pageswidgets->getPageWidgetById((int) $pageWidgetId[0]);
 
                         if (isset($pageWidget['settings']['html_code'])) {
-                            $dashboardWidget['settings']['accordions'][$accordionKey]['content'] = $pageWidget['settings']['html_code'];
+                            $pageWidget['settings']['accordions'][$accordionKey]['content'] = $pageWidget['settings']['html_code'];
                         }
                     }
                 }
             }
         }
 
-        return $this->getWidgetContent($widget, $dashboardWidget);
+        return $this->getWidgetContent($widget, $pageWidget);
     }
 }
